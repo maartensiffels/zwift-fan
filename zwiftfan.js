@@ -26,7 +26,9 @@ function refreshData()
     x = 1;  //  run every x seconds 
 
 world.riderStatus(riderID).then(status => {
-console.log(status.riderStatus.speed); 
+console.log("#zwiftfan#");
+console.log("speed: "+status.riderStatus.speed);
+console.log(" ");
 
 if (status.riderStatus.speed == (speed1*1000000)) { 
 	request.post('https://api.particle.io/v1/devices/'+deviceID+'/relay?access_token='+accessToken, {form:{params:'r1,LOW'}}) ;
