@@ -16,20 +16,26 @@ var speed3 = 50 ; // speed in km/hour above wich fan goes to speed 3, default is
 var request = require('request');  
 var world = account.getWorld(1);  
 
+// set all relays to off
 request.post('https://api.particle.io/v1/devices/'+deviceID+'/relay?access_token='+accessToken, {form:{params:'r1,LOW'}})
 request.post('https://api.particle.io/v1/devices/'+deviceID+'/relay?access_token='+accessToken, {form:{params:'r2,LOW'}})
 request.post('https://api.particle.io/v1/devices/'+deviceID+'/relay?access_token='+accessToken, {form:{params:'r3,LOW'}})
 request.post('https://api.particle.io/v1/devices/'+deviceID+'/relay?access_token='+accessToken, {form:{params:'r4,LOW'}})
 
+// run this function every x second(s)
 function refreshData()
 {
-    x = 1;  //  run every x seconds 
+    x = 1; 
 
 world.riderStatus(riderID).then(status => {
+// print Zwift metrics to the console/terminal
 console.log("#zwiftfan#");
-console.log("speed: "+status.riderStatus.speed);
+console.log("speed: "+status.riderStatus.speed); 
+console.log("power: "+status.riderStatus.power); 
+console.log("heart rate: "+status.riderStatus.heartrate);
 console.log(" ");
 
+// evaluate the speed and switch the right relay
 if (status.riderStatus.speed == (speed1*1000000)) { 
 	request.post('https://api.particle.io/v1/devices/'+deviceID+'/relay?access_token='+accessToken, {form:{params:'r1,LOW'}}) ;
 	request.post('https://api.particle.io/v1/devices/'+deviceID+'/relay?access_token='+accessToken, {form:{params:'r2,LOW'}}) ;
